@@ -1,0 +1,47 @@
+extends layout
+
+block content
+  - var act = customer!=null?'?' + customer._id:''
+  h1= title
+  p #{title}
+  if msg
+    p #{ msg }
+  div
+    if form
+      a(href="./")
+        input(type='button', value="Cancel")
+      form(name="customer", action="./" + act, method="post")
+        pre
+          input(type="text", name='name', placeholder='Enter name', value=customer!=null?customer.name:'')
+          br
+          input(type="text", name='username', placeholder='Enter username', value=customer!=null?customer.username:'')
+          br
+          input(type="password", name='password', placeholder='Enter password', value=customer!=null?customer.password:'')
+          br
+          | Premium
+          input(type="checkbox", name='premium', checked=customer&&customer.premium) 
+          br
+          input(type="text", name='location', placeholder='Enter location', value=customer!=null?customer.location:'')
+          br
+          input(type='submit', value="Sent")
+    else
+      a(href="./0")
+        input(type='button', value="Add new customer")
+      table
+        tr
+          //- th Id
+          th Name
+          th Username
+          th Premium
+          th Location
+          th Edit record
+        each customer, i in customers
+          tr
+            //- td= customer._id
+            td= customer.name
+            td= customer.username
+            td= customer.premium ? "Yes" : "No"
+            td= customer.location
+            td
+              a(href="./" + customer._id)
+                input(type='button', value="Edit")
